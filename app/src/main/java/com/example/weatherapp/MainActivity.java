@@ -36,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -49,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText cityEdt;
     private ImageView backIV, iconIV, searchIV;
     private RecyclerView weatherRV;
-    private ArrayList<WeatherRVModal> weatherRVModalrArrayList;
-    private WeatherRVAdapter weatherRVAdapter;
+    private ArrayList<WeatherRVModal2> weatherRVModalrArrayList2;
+    private WeatherRVAdapter2 weatherRVAdapter;
     private LocationManager locationManager;
     private int PERMISSION_CODE = 1;
     private String CityName;
@@ -73,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         iconIV = findViewById(R.id.idIVIcon);
         searchIV = findViewById(R.id.idIVSearch);
         cityEdt = findViewById(R.id.idEdtCity);
-        weatherRVModalrArrayList = new ArrayList<>();
-        weatherRVAdapter = new WeatherRVAdapter(this, weatherRVModalrArrayList);
+        weatherRVModalrArrayList2 = new ArrayList<>();
+        weatherRVAdapter = new WeatherRVAdapter2(this, weatherRVModalrArrayList2);
         weatherRV.setAdapter(weatherRVAdapter);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -82,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         }
 
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        CityName = getCityName(location.getLongitude(), location.getLatitude());
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+         CityName = getCityName(location.getLatitude(), location.getLongitude());
         getWeatherInfo(CityName);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getCityName(double longitude, double latitude){
+    private String getCityName(double latitude, double longitude){
         String CityName = "Not Found";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         try {
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 loadingPB.setVisibility(View.GONE);
                 homeRl.setVisibility(View.VISIBLE);
-                weatherRVModalrArrayList.clear();
+                weatherRVModalrArrayList2.clear();
 
                 try {
                     String temperature = response.getJSONObject("current").getString("temp_c");
@@ -176,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                         String img = hourObj.getJSONObject("condition").getString("icon");
                         String wind = hourObj.getString("wind_kph");
 
-                        weatherRVModalrArrayList.add(new WeatherRVModal(time,temp,img,wind));
+                        weatherRVModalrArrayList2.add(new WeatherRVModal2(time,temp,img,wind));
                     }
 
                     weatherRVAdapter.notifyDataSetChanged();

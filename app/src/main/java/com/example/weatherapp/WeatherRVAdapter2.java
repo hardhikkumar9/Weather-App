@@ -17,26 +17,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.ViewHolder> {
+public class WeatherRVAdapter2 extends RecyclerView.Adapter<WeatherRVAdapter2.ViewHolder> {
     private Context context;
-    private ArrayList<WeatherRVModal> weatherRVModalArrayList;
+    private ArrayList<WeatherRVModal2> weatherRVModal2ArrayList;
 
-    public WeatherRVAdapter(Context context, ArrayList<WeatherRVModal> weatherRVModalArrayList) {
+    public WeatherRVAdapter2(Context context, ArrayList<WeatherRVModal2> weatherRVModal2ArrayList) {
         this.context = context;
-        this.weatherRVModalArrayList = weatherRVModalArrayList;
+        this.weatherRVModal2ArrayList = weatherRVModal2ArrayList;
     }
 
     @NonNull
     @Override
-    public WeatherRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WeatherRVAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.weather_rv_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeatherRVAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeatherRVAdapter2.ViewHolder holder, int position) {
 
-        WeatherRVModal modal = weatherRVModalArrayList.get(position);
+        WeatherRVModal2 modal = weatherRVModal2ArrayList.get(position);
         holder.temperatureTV.setText(modal.getTemperature() + "°C");
         Picasso.get().load("http:".concat(modal.getIcon())).into(holder.conditionTV);
         holder.windTV.setText(modal.getWindSpeed() + "Km/h");
@@ -52,7 +52,7 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
 
     @Override
     public int getItemCount() {
-        return weatherRVModalArrayList.size();
+        return weatherRVModal2ArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
