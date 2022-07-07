@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        CityName = getCityName(location.getLongitude(),location.getLatitude());
+        CityName = getCityName(location.getLongitude(), location.getLatitude());
         getWeatherInfo(CityName);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
