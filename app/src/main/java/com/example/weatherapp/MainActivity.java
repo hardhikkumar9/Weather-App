@@ -48,16 +48,18 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText cityEdt;
     private ImageView backIV, iconIV, searchIV;
     private RecyclerView weatherRV;
-    private ArrayList<WeatherRVModal2> weatherRVModalrArrayList2;
+    private ArrayList<WeatherRVModal2> weatherRVModalArrayList2;
     private WeatherRVAdapter2 weatherRVAdapter;
     private LocationManager locationManager;
     private int PERMISSION_CODE = 1;
-    private String CityName;
-
+    private String cityName;
+    private double getLongitude;
+    private double getLatitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -72,18 +74,21 @@ public class MainActivity extends AppCompatActivity {
         iconIV = findViewById(R.id.idIVIcon);
         searchIV = findViewById(R.id.idIVSearch);
         cityEdt = findViewById(R.id.idEdtCity);
-        weatherRVModalrArrayList2 = new ArrayList<>();
-        weatherRVAdapter = new WeatherRVAdapter2(this, weatherRVModalrArrayList2);
+        weatherRVModalArrayList2 = new ArrayList<>();
+        weatherRVAdapter = new WeatherRVAdapter2(this, weatherRVModalArrayList2);
         weatherRV.setAdapter(weatherRVAdapter);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         }
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-         CityName = getCityName(location.getLatitude(), location.getLongitude());
-        getWeatherInfo(CityName);
+        cityName = getCityName(location.getLatitude(), location.getLongitude());
+
+        getWeatherInfo(cityName);
 
         searchIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 if (city.isEmpty()){
                     Toast.makeText(MainActivity.this, "Please enter city name ", Toast.LENGTH_SHORT).show();
                 }else {
-                    cityNameTv.setText(CityName);
+                    cityNameTv.setText(cityName);
                     getWeatherInfo(city);
                 }
             }
@@ -114,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getCityName(double latitude, double longitude){
-        String CityName = "Not Found";
+        String cityName = "Not Found";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         try {
             List<Address>addresses = gcd.getFromLocation(latitude,longitude,10);
@@ -123,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 if (adr!= null){
                     String city = adr.getLocality();
                     if (city!=null && !city.equals("")){
-                        CityName = city;
+                        cityName = city;
                     }else{
                         Log.d("TAG","CITY NOT FOUND");
                         Toast.makeText(this,"User City Not Found..", Toast.LENGTH_SHORT).show();
@@ -133,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (IOException e){
             e.printStackTrace();
         }
-        return CityName;
+        return cityName;
     }
 
     private void getWeatherInfo(String CityName) {
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 loadingPB.setVisibility(View.GONE);
                 homeRl.setVisibility(View.VISIBLE);
-                weatherRVModalrArrayList2.clear();
+                weatherRVModalArrayList2.clear();
 
                 try {
                     String temperature = response.getJSONObject("current").getString("temp_c");
@@ -175,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         String img = hourObj.getJSONObject("condition").getString("icon");
                         String wind = hourObj.getString("wind_kph");
 
-                        weatherRVModalrArrayList2.add(new WeatherRVModal2(time,temp,img,wind));
+                        weatherRVModalArrayList2.add(new WeatherRVModal2(time,temp,img,wind));
                     }
 
                     weatherRVAdapter.notifyDataSetChanged();

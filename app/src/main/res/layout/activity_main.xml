@@ -28,12 +28,12 @@
             android:scaleType="centerCrop"
             android:src="@color/black_shade_1"
             android:id="@+id/idVBack"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="City Name"
+            android:text="@string/city_name"
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="@color/white"
@@ -59,7 +59,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="4.5"
                 android:background="@android:color/transparent"
-                android:hint="Enter City Name"
+                android:hint="@string/enter_city_name"
                 android:padding="5dp"
                 android:textColorHint="@color/white"
                 app:hintTextColor="@color/white">
@@ -86,7 +86,8 @@
                 android:layout_weight="0.5"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_search"
-                app:tint="@color/white"/>
+                app:tint="@color/white"
+                android:contentDescription="TODO" />
 
         </LinearLayout>
 
@@ -98,9 +99,9 @@
             android:layout_margin="10dp"
             android:gravity="center_horizontal"
             android:padding="10dp"
-            android:text="23"
+            android:text="@string/_23"
             android:textColor="@color/white"
-            android:textSize="70dp"/>
+            android:textSize="70sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -118,7 +119,7 @@
             android:id="@+id/idTVCondition"
             android:gravity="center"
             android:textAlignment="center"
-            android:text="Condition"
+            android:text="@string/condition"
             android:textColor="@color/white"
             android:layout_below="@id/idIVIcon"/>
 
@@ -127,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginBottom="10dp"
-            android:text="Today's Weather Forcast"
+            android:text="@string/today_s_weather_forcast"
             android:textColor="@color/white"
             android:layout_above="@id/idRVWeather"
             android:textStyle="bold"/>
